@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		7E423FB225E557BE00FC9348 /* Colors.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7E423FB125E557BE00FC9348 /* Colors.xcassets */; };
 		7EA7B29A25E51EB0001456C3 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EA7B29925E51EB0001456C3 /* AppDelegate.swift */; };
 		7EA7B29E25E51EB0001456C3 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EA7B29D25E51EB0001456C3 /* ViewController.swift */; };
 		7EA7B2A325E51EB1001456C3 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7EA7B2A225E51EB1001456C3 /* Assets.xcassets */; };
@@ -20,6 +21,7 @@
 
 /* Begin PBXFileReference section */
 		169C8840B5C192675501E6D3 /* Pods_PlatziTweets.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_PlatziTweets.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		7E423FB125E557BE00FC9348 /* Colors.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Colors.xcassets; sourceTree = "<group>"; };
 		7EA7B29625E51EB0001456C3 /* PlatziTweets.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PlatziTweets.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7EA7B29925E51EB0001456C3 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		7EA7B29D25E51EB0001456C3 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -90,6 +92,7 @@
 				7EA7B29D25E51EB0001456C3 /* ViewController.swift */,
 				7EA7B2A225E51EB1001456C3 /* Assets.xcassets */,
 				7EA7B2A425E51EB1001456C3 /* LaunchScreen.storyboard */,
+				7E423FB125E557BE00FC9348 /* Colors.xcassets */,
 			);
 			path = Commons;
 			sourceTree = "<group>";
@@ -181,6 +184,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				7EA7B2A625E51EB1001456C3 /* LaunchScreen.storyboard in Resources */,
+				7E423FB225E557BE00FC9348 /* Colors.xcassets in Resources */,
 				7EA7B2A325E51EB1001456C3 /* Assets.xcassets in Resources */,
 				7EA7B2CC25E522C0001456C3 /* Welcome.storyboard in Resources */,
 			);

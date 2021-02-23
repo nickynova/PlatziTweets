@@ -4,6 +4,7 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17703"/>
+        <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -139,6 +140,7 @@
                             </stackView>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="bottomImage" translatesAutoresizingMaskIntoConstraints="NO" id="NkM-Sa-AZ0">
                                 <rect key="frame" x="0.0" y="772" width="414" height="124"/>
+                                <color key="backgroundColor" name="backroundColor"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="124" id="Mus-cl-ClU"/>
                                 </constraints>
@@ -176,6 +178,7 @@
                         <subviews>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="bottomImage" translatesAutoresizingMaskIntoConstraints="NO" id="jLE-97-Btc">
                                 <rect key="frame" x="0.0" y="770" width="414" height="126"/>
+                                <color key="backgroundColor" name="backroundColor"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="126" id="q8u-gh-Wc0"/>
                                 </constraints>
@@ -212,6 +215,9 @@
                                                 <integer key="value" value="12"/>
                                             </userDefinedRuntimeAttribute>
                                         </userDefinedRuntimeAttributes>
+                                        <connections>
+                                            <action selector="createAccountButtonAction" destination="haQ-pe-cSv" eventType="touchUpInside" id="IlN-w5-sXw"/>
+                                        </connections>
                                     </button>
                                 </subviews>
                             </stackView>
@@ -229,6 +235,9 @@
                     </view>
                     <navigationItem key="navigationItem" title="Registro" id="AE4-FV-S5A"/>
                     <connections>
+                        <outlet property="emailTextField" destination="Trv-d8-UXU" id="HIb-Mc-kWU"/>
+                        <outlet property="nameAndLastname" destination="ERr-5F-eFt" id="bLS-0K-w87"/>
+                        <outlet property="passwordTextField" destination="Znm-Xg-AMB" id="fVO-cx-djp"/>
                         <outlet property="registerButton" destination="Ndt-ev-TpT" id="aKX-W3-1Ck"/>
                     </connections>
                 </viewController>
@@ -258,6 +267,9 @@
     <resources>
         <image name="bottomImage" width="351.5" height="123"/>
         <image name="loginBg" width="640" height="425"/>
+        <namedColor name="backroundColor">
+            <color red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>

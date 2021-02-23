@@ -131,6 +131,9 @@
                                                 <integer key="value" value="12"/>
                                             </userDefinedRuntimeAttribute>
                                         </userDefinedRuntimeAttributes>
+                                        <connections>
+                                            <action selector="loginButtonAction" destination="NmR-r9-OGb" eventType="touchUpInside" id="csa-Me-7Ft"/>
+                                        </connections>
                                     </button>
                                 </subviews>
                             </stackView>
@@ -153,6 +156,11 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Iniciar Sesión" id="2a9-Cg-nGr"/>
+                    <connections>
+                        <outlet property="emailTextField" destination="E4a-od-clB" id="fmA-Um-U4P"/>
+                        <outlet property="loginButton" destination="fCQ-2Q-iU6" id="X2K-Bt-vhR"/>
+                        <outlet property="passwordTextField" destination="zj8-iQ-huS" id="hhJ-lv-VWm"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="u4m-hZ-2YD" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
@@ -220,6 +228,9 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Registro" id="AE4-FV-S5A"/>
+                    <connections>
+                        <outlet property="registerButton" destination="Ndt-ev-TpT" id="aKX-W3-1Ck"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="UlM-mM-2fT" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>

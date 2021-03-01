@@ -18,7 +18,8 @@ class WelcomeViewController: UIViewController {
         setupUI()
     }
     
+    // MARK: - Private Methods
     private func setupUI() {
-        loginButton.layer.cornerRadius = 24
+        loginButton.layer.cornerRadius = 20
     }
 }

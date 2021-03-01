@@ -31,10 +31,10 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="flp-vu-atH">
-                                        <rect key="frame" x="60" y="682" width="294" height="38"/>
+                                        <rect key="frame" x="50" y="678" width="314" height="42"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <constraints>
-                                            <constraint firstAttribute="height" constant="38" id="MgE-ou-rh5"/>
+                                            <constraint firstAttribute="height" constant="42" id="MgE-ou-rh5"/>
                                         </constraints>
                                         <state key="normal" title="Iniciar Sesión">
                                             <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -45,6 +45,7 @@
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vt9-sn-G4T">
                                         <rect key="frame" x="50" y="746" width="314" height="30"/>
+                                        <fontDescription key="fontDescription" type="system" weight="medium" pointSize="15"/>
                                         <state key="normal" title="Resgistro">
                                             <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         </state>
@@ -64,10 +65,10 @@
                                     <constraint firstItem="6sA-AP-fkG" firstAttribute="centerY" secondItem="rBi-yq-cXM" secondAttribute="centerY" constant="-18" id="0Ia-GW-alh"/>
                                     <constraint firstItem="6sA-AP-fkG" firstAttribute="centerX" secondItem="rBi-yq-cXM" secondAttribute="centerX" id="47n-u0-yf0"/>
                                     <constraint firstItem="DNt-m8-5gS" firstAttribute="top" secondItem="6sA-AP-fkG" secondAttribute="bottom" constant="6" id="BZw-kE-kLi"/>
-                                    <constraint firstAttribute="trailing" secondItem="flp-vu-atH" secondAttribute="trailing" constant="60" id="J0U-ct-f8r"/>
+                                    <constraint firstAttribute="trailing" secondItem="flp-vu-atH" secondAttribute="trailing" constant="50" id="J0U-ct-f8r"/>
                                     <constraint firstItem="vt9-sn-G4T" firstAttribute="leading" secondItem="rBi-yq-cXM" secondAttribute="leading" constant="50" id="LaJ-cK-EsA"/>
                                     <constraint firstAttribute="trailing" secondItem="vt9-sn-G4T" secondAttribute="trailing" constant="50" id="Rej-5m-p0O"/>
-                                    <constraint firstItem="flp-vu-atH" firstAttribute="leading" secondItem="rBi-yq-cXM" secondAttribute="leading" constant="60" id="WEx-eL-iXS"/>
+                                    <constraint firstItem="flp-vu-atH" firstAttribute="leading" secondItem="rBi-yq-cXM" secondAttribute="leading" constant="50" id="WEx-eL-iXS"/>
                                     <constraint firstItem="vt9-sn-G4T" firstAttribute="top" secondItem="flp-vu-atH" secondAttribute="bottom" constant="26" id="WjH-L6-CcP"/>
                                     <constraint firstAttribute="bottom" secondItem="vt9-sn-G4T" secondAttribute="bottom" constant="120" id="aFT-ln-lme"/>
                                     <constraint firstAttribute="trailing" secondItem="DNt-m8-5gS" secondAttribute="trailing" constant="50" id="baC-0Y-Wh6"/>
@@ -162,11 +163,20 @@
                         <outlet property="emailTextField" destination="E4a-od-clB" id="fmA-Um-U4P"/>
                         <outlet property="loginButton" destination="fCQ-2Q-iU6" id="X2K-Bt-vhR"/>
                         <outlet property="passwordTextField" destination="zj8-iQ-huS" id="hhJ-lv-VWm"/>
+                        <segue destination="osY-pX-brW" kind="presentation" identifier="showHome" modalPresentationStyle="fullScreen" id="6a5-Of-THg"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="u4m-hZ-2YD" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1773.913043478261" y="-157.36607142857142"/>
+        </scene>
+        <!--Home-->
+        <scene sceneID="Aoo-1A-Dcu">
+            <objects>
+                <viewControllerPlaceholder storyboardName="Home" id="osY-pX-brW" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="5hg-8s-tcF" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2417" y="247"/>
         </scene>
         <!--Registro-->
         <scene sceneID="rbW-bc-bF8">
@@ -239,6 +249,7 @@
                         <outlet property="nameAndLastname" destination="ERr-5F-eFt" id="bLS-0K-w87"/>
                         <outlet property="passwordTextField" destination="Znm-Xg-AMB" id="fVO-cx-djp"/>
                         <outlet property="registerButton" destination="Ndt-ev-TpT" id="aKX-W3-1Ck"/>
+                        <segue destination="osY-pX-brW" kind="presentation" identifier="showHome" modalPresentationStyle="fullScreen" id="YoE-Di-nTT"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="UlM-mM-2fT" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -264,6 +275,9 @@
             <point key="canvasLocation" x="102.89855072463769" y="55.580357142857139"/>
         </scene>
     </scenes>
+    <inferredMetricsTieBreakers>
+        <segue reference="6a5-Of-THg"/>
+    </inferredMetricsTieBreakers>
     <resources>
         <image name="bottomImage" width="351.5" height="123"/>
         <image name="loginBg" width="640" height="425"/>

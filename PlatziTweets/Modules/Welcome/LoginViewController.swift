@@ -7,6 +7,9 @@
 
 import UIKit
 import NotificationBannerSwift
+import Simple_Networking
+import SVProgressHUD
+
 
 class LoginViewController: UIViewController {
     // MARK: - Outlets
@@ -16,6 +19,7 @@ class LoginViewController: UIViewController {
     
     // MARK: - IBActions
     @IBAction func loginButtonAction() {
+        view.endEditing(true)
         performLogin()
     }
     
@@ -27,7 +31,7 @@ class LoginViewController: UIViewController {
     
     // MARK: - Private Methods
     private func setupUI() {
-        loginButton.layer.cornerRadius = 24
+        loginButton.layer.cornerRadius = 20
     }
     
     private func performLogin() {
@@ -41,5 +45,31 @@ class LoginViewController: UIViewController {
             
             return
         }
+        
+        // crear request mandando email y password dados por el user
+        let request = LoginRequest(email: email, password: password)
+        
+        // iniciar la carga llamando a libreria SVP
+        SVProgressHUD.show()
+        
+        // llamar a libreria de red Simple_Networking
+        SN.post(endpoint: Endpoints.login, model: request) { (response: SNResultWithEntity<LoginResponse, ErrorResponse>) in
+            
+            SVProgressHUD.dismiss()
+            
+            switch response {
+            case . success(let user):
+                NotificationBanner(subtitle: "Welcome \(user.user.names)", style: BannerStyle.success).show()
+                self.performSegue(withIdentifier: "showHome", sender: nil)
+                SimpleNetworking.setAuthenticationHeader(prefix: "", token: user.token)
+                
+            case .error( _):
+                NotificationBanner(subtitle: "Error inesperado", style: BannerStyle.danger).show()
+                
+            case .errorResult( _):
+                NotificationBanner(subtitle: "Verifica tus credenciales y vuelve a intentar", style: BannerStyle.danger).show()
+            }
+        }
     }
 }
+

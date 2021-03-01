@@ -7,6 +7,8 @@
 
 import UIKit
 import NotificationBannerSwift
+import Simple_Networking
+import SVProgressHUD
 
 class RegisterViewController: UIViewController {
     // MARK: - IBOutlets
@@ -17,7 +19,8 @@ class RegisterViewController: UIViewController {
     
     // MARK: - IBActions
     @IBAction func createAccountButtonAction() {
-        performLogin()
+        view.endEditing(true)
+        performRegister()
     }
     
     override func viewDidLoad() {
@@ -26,13 +29,19 @@ class RegisterViewController: UIViewController {
         setupUI()
     }
     
+    // MARK: - Private Methods
     private func setupUI() {
-        registerButton.layer.cornerRadius = 24
+        registerButton.layer.cornerRadius = 20
     }
     
-    private func performLogin() {
+    private func performRegister() {
         guard let email = emailTextField.text, !email.isEmpty else {
             NotificationBanner(title: "Error", subtitle: "Debes especificar un correo", style: BannerStyle.warning).show()
+            
+            return
+        }
+        guard let emailTypeVerification = emailTextField.text, emailTypeVerification.contains(_: "@") else {
+            NotificationBanner(title: "Error", subtitle: "Debes especificar un correo válido", style: BannerStyle.warning).show()
             
             return
         }
@@ -46,5 +55,32 @@ class RegisterViewController: UIViewController {
             
             return
         }
+        
+        // se crea el request
+        let request = ResgisterRequest(email: email, password: password, names: nameAndLastname)
+        
+        // se muestra carga al usuario
+        SVProgressHUD.show()
+        
+        // llamar al servicio
+        SN.post(endpoint: Endpoints.register, model: request) { (response: SNResultWithEntity<LoginResponse, ErrorResponse>) in
+            
+            SVProgressHUD.dismiss()
+            
+            switch response {
+            case . success(let user):
+                NotificationBanner(subtitle: "Welcome \(user.user.names)", style: BannerStyle.success).show()
+                self.performSegue(withIdentifier: "showHome", sender: nil)
+                SimpleNetworking.setAuthenticationHeader(prefix: "", token: user.token)
+                
+            case .error( _):
+                NotificationBanner(subtitle: "Error inesperado", style: BannerStyle.danger).show()
+                
+            case .errorResult( _):
+                NotificationBanner(subtitle: "Verifica tus credenciales y vuelve a intentar", style: BannerStyle.danger).show()
+            }
+        
+        }
     }
 }
+

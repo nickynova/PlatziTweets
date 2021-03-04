@@ -17,13 +17,19 @@ class HomeViewController: UIViewController {
     // MARK: - Properties
     private let cellId = "TweetTableViewCell"
     private var dataSource = [Post]()
-    
+    private let emailKey = "email"
+    private let defaults = UserDefaults.standard
+
     override func viewDidLoad() {
         super.viewDidLoad()
         
         setupUI()
-        getPosts()
         
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        getPosts()
     }
     
     // MARK: - Private methods
@@ -31,6 +37,8 @@ class HomeViewController: UIViewController {
         // para darle vida a la tabla:
         // 1. Asignar dataSource
         // 2. registrar celda
+        
+        tableView.delegate = self
         tableView.dataSource = self
         tableView.register(UINib(nibName: cellId, bundle: nil), forCellReuseIdentifier: cellId)
     }
@@ -56,6 +64,57 @@ class HomeViewController: UIViewController {
                 NotificationBanner(subtitle: "Verifica tus credenciales y vuelve a intentar", style: BannerStyle.danger).show()
             }
         }
+    }
+    
+    private func deletePostA(indexPath: IndexPath) {
+        // borrar tweets paso a paso del metodo que contiene la logica
+        // 1. Indicar carga
+        SVProgressHUD.show()
+        
+        // 2. get ID del post a borrar
+        let postId = dataSource[indexPath.row].id
+        
+        // 3. preparamos endpoint para borrar
+        let endpoint = Endpoints.delete + postId
+        
+        // 4. consumir servicio
+        SN.delete(endpoint: endpoint) { (response: SNResultWithEntity<GeneralResponse, ErrorResponse>) in
+            
+            SVProgressHUD.dismiss()
+            
+            switch response {
+            case . success:
+                // 1. borrar post del datasource y 2. la celda de la tabla
+                self.defaults.setValue(self.dataSource[indexPath.row].author.email, forKey: self.emailKey)
+                self.dataSource.remove(at: indexPath.row)
+                self.tableView.deleteRows(at: [indexPath], with: .left)
+                
+            case .error( _):
+                NotificationBanner(subtitle: "Error inesperado", style: BannerStyle.danger).show()
+                
+            case .errorResult( _):
+                NotificationBanner(subtitle: "Verifica tus credenciales y vuelve a intentar", style: BannerStyle.danger).show()
+            }
+        }
+    }
+}
+
+// MARK: - UITableViewDelegate
+extension HomeViewController: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
+        
+        let deleteAction = UITableViewRowAction(style: .destructive, title: "borrar") { (_, _) in
+            self.deletePostA(indexPath: indexPath)
+        }
+        
+        return [deleteAction]
+    }
+    
+    func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+        
+        let storedEmail = defaults.string(forKey: emailKey)
+        
+        return dataSource[indexPath.row].author.email == storedEmail
     }
 }
 

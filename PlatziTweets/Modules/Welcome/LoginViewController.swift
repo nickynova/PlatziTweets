@@ -19,13 +19,26 @@ class LoginViewController: UIViewController {
     
     // MARK: - IBActions
     @IBAction func loginButtonAction() {
+        
+        let email = emailTextField.text
+            
+        storage.set(email, forKey: emailKey)
+        
+        
         view.endEditing(true)
         performLogin()
     }
     
+    private let emailKey = "email"
+    private let storage = UserDefaults.standard
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
+        if let storedEmail = storage.string(forKey: emailKey) {
+            emailTextField.text = storedEmail
+        }
+        
         setupUI()
     }
     

@@ -4,6 +4,7 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17703"/>
+        <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -21,16 +22,17 @@
                                 <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                             </tableView>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Yz4-55-Ifd">
-                                <rect key="frame" x="322" y="772" width="70" height="70"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Yz4-55-Ifd">
+                                <rect key="frame" x="337" y="787" width="55" height="55"/>
                                 <color key="backgroundColor" systemColor="systemGreenColor"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="70" id="3Ok-RV-psK"/>
-                                    <constraint firstAttribute="width" constant="70" id="9Be-Jx-bXZ"/>
+                                    <constraint firstAttribute="height" constant="55" id="3Ok-RV-psK"/>
+                                    <constraint firstAttribute="width" constant="55" id="9Be-Jx-bXZ"/>
                                 </constraints>
+                                <state key="normal" image="NewTweetIcon"/>
                                 <userDefinedRuntimeAttributes>
                                     <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
-                                        <integer key="value" value="85"/>
+                                        <integer key="value" value="28"/>
                                     </userDefinedRuntimeAttribute>
                                 </userDefinedRuntimeAttributes>
                                 <connections>
@@ -80,20 +82,27 @@
                                 </connections>
                             </button>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="hoO-OP-5ch">
-                                <rect key="frame" x="20" y="117" width="374" height="184"/>
+                                <rect key="frame" x="20" y="117" width="374" height="234"/>
                                 <subviews>
-                                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" text="What's happening?" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="wX6-TE-lTt">
+                                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="wX6-TE-lTt">
                                         <rect key="frame" x="0.0" y="0.0" width="374" height="120"/>
-                                        <color key="backgroundColor" red="0.93112537114307137" green="0.93112537114307137" blue="0.93112537114307137" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <color key="backgroundColor" name="newTweetBoxColor"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="120" id="S9S-Nr-5NO"/>
                                         </constraints>
-                                        <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits" autocapitalizationType="sentences" autocorrectionType="yes" spellCheckingType="yes"/>
                                     </textView>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="JJ6-9w-Xal">
+                                        <rect key="frame" x="0.0" y="140" width="374" height="30"/>
+                                        <state key="normal" title="Abrir Camara"/>
+                                        <connections>
+                                            <action selector="openCameraAction" destination="R7f-Eo-d08" eventType="touchUpInside" id="d2W-wZ-HNf"/>
+                                        </connections>
+                                    </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dCi-Nl-gW5">
-                                        <rect key="frame" x="0.0" y="140" width="374" height="44"/>
+                                        <rect key="frame" x="0.0" y="190" width="374" height="44"/>
                                         <color key="backgroundColor" systemColor="systemGreenColor"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="44" id="P9C-Mj-EOw"/>
@@ -106,6 +115,12 @@
                                             <action selector="addPostAction" destination="R7f-Eo-d08" eventType="touchUpInside" id="F5u-Fm-ORf"/>
                                         </connections>
                                     </button>
+                                    <imageView hidden="YES" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="xEd-of-T04">
+                                        <rect key="frame" x="0.0" y="234" width="374" height="200"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="200" id="6hf-N2-avN"/>
+                                        </constraints>
+                                    </imageView>
                                 </subviews>
                             </stackView>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="bottomImage" translatesAutoresizingMaskIntoConstraints="NO" id="Ggl-al-rPT">
@@ -133,6 +148,7 @@
                     </view>
                     <connections>
                         <outlet property="postTextView" destination="wX6-TE-lTt" id="1Qb-Gb-7SR"/>
+                        <outlet property="previewImageView" destination="xEd-of-T04" id="dux-iR-5yW"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="c1y-FV-qm7" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -159,7 +175,11 @@
         </scene>
     </scenes>
     <resources>
+        <image name="NewTweetIcon" width="27" height="27"/>
         <image name="bottomImage" width="351.5" height="123"/>
+        <namedColor name="newTweetBoxColor">
+            <color red="0.82745098039215681" green="0.82745098039215681" blue="0.82745098039215681" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>

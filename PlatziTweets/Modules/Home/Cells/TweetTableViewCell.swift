@@ -36,6 +36,7 @@ class TweetTableViewCell: UITableViewCell {
         
         if post.hasImage {
             // traemos la imagen del servidor
+            tweetImageView.isHidden = false
             tweetImageView.kf.setImage(with: URL(string: post.imageUrl))
         } else {
             tweetImageView.isHidden = true

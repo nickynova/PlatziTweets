@@ -10,19 +10,51 @@ import Simple_Networking
 import SVProgressHUD
 import NotificationBannerSwift
 import FirebaseStorage
+import AVFoundation
+import AVKit
+import MobileCoreServices
 
 class AddPostViewController: UIViewController {
     // MARK: - IBOutlets
     @IBOutlet weak var postTextView: UITextView!
     @IBOutlet weak var previewImageView: UIImageView!
+    @IBOutlet weak var videoButton: UIButton!
     
     // MARK: - IBActions
     @IBAction func openCameraAction() {
-        openCamera()
+        
+        let alert = UIAlertController(title: "Cámara",
+                                      message: "selecciona una opcion",
+                                      preferredStyle: .actionSheet)
+        
+        alert.addAction(UIAlertAction(title: "photo", style: .default, handler: { _ in
+            self.openCamera()
+        }))
+        alert.addAction(UIAlertAction(title: "video", style: .default, handler: { _ in
+            self.openVideoCamera()
+        }))
+        alert.addAction(UIAlertAction(title: "cancelar", style: .destructive, handler: nil))
+        
+        present(alert, animated: true, completion: nil)
+    }
+    
+    @IBAction func openVideoCameraAction(){
+        
+        guard let currentVideoUrl = currentVideoUrl else {
+            return
+        }
+        let avPlayer = AVPlayer(url: currentVideoUrl)
+        
+        let avPlayerController = AVPlayerViewController()
+        avPlayerController.player = avPlayer
+        
+        present(avPlayerController, animated: true) {
+            avPlayerController.player?.play()
+        }
     }
     
     @IBAction func addPostAction() {
-        uploadPhotoToFirebase()
+        uploadVideoToFirebase()
     }
     
     @IBAction func dismissAction() {
@@ -31,13 +63,34 @@ class AddPostViewController: UIViewController {
     
     // MARK: - Properties
     private var imagePicker: UIImagePickerController?
+    private var currentVideoUrl: URL?
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        videoButton.isHidden = true
     }
     
     
     // MARK: - Private methods
+    private func openVideoCamera() {
+        imagePicker = UIImagePickerController()
+        imagePicker?.sourceType = .camera
+        imagePicker?.mediaTypes = [kUTTypeMovie as String]
+        imagePicker?.cameraFlashMode = .off
+        imagePicker?.cameraCaptureMode = .video
+        imagePicker?.videoQuality = .typeMedium
+        imagePicker?.videoMaximumDuration = TimeInterval(5)
+        imagePicker?.allowsEditing = true
+        imagePicker?.delegate = self
+        
+        guard let imagePicker = imagePicker else {
+            return
+        }
+        
+        present(imagePicker, animated: true, completion: nil)
+    }
+    
     private func openCamera() {
         imagePicker = UIImagePickerController()
         imagePicker?.sourceType = .camera
@@ -53,6 +106,7 @@ class AddPostViewController: UIViewController {
         present(imagePicker, animated: true, completion: nil)
     }
     
+    // try to make this two next func into just one in the future
     private func uploadPhotoToFirebase() {
         // 1. be sure the photo exists
         // 2. to compress the image
@@ -96,14 +150,64 @@ class AddPostViewController: UIViewController {
                     //9. si no hay error obtener url de descarga
                     folderReference.downloadURL { (url: URL?, error: Error?) in
                         let downloadUrl = url?.absoluteString ?? ""
-                        self.savePost(imageUrl: downloadUrl)
+                        self.savePost(imageUrl: downloadUrl, videoUrl: nil)
                     }
                 }
             }
         }
     }
     
-    private func savePost(imageUrl: String?) {
+    private func uploadVideoToFirebase() {
+        // 1. be sure the videoexists
+        // 2. to convert in data the video
+        guard
+            let currentVideoSavedUrl = currentVideoUrl,
+            let videoData: Data = try? Data(contentsOf: currentVideoSavedUrl) else {
+            
+            return
+        }
+        
+        SVProgressHUD.show()
+        
+        // 3. video storage settings
+        let metaDataConfig = StorageMetadata()
+        metaDataConfig.contentType = "video/MP4"
+        
+        // 4. referencia a storage de firebase
+        let storage = Storage.storage()
+        
+        // 5. crear nombre del video a subir
+        let videoName = Int.random(in: 100...1000)
+        
+        // 6. crear referencia al folder destino del video
+        let folderReference = storage.reference(withPath: "video-tweets\(videoName).mp4")
+        
+        // 7 subir video a firebase yendo a hilo secundario con dispatchqueue
+        DispatchQueue.global(qos: .background).async {
+            folderReference.putData(videoData, metadata: metaDataConfig) { (metadata: StorageMetadata?, error: Error?) in
+                
+                DispatchQueue.main.async {
+                    
+                    // 8. ir a hilo principal y detener carga y verfificar error
+                    SVProgressHUD.dismiss()
+                    
+                    if let error = error {
+                        NotificationBanner(subtitle: error.localizedDescription, style: BannerStyle.danger).show()
+                        
+                        return
+                    }
+                    
+                    //9. si no hay error obtener url de descarga
+                    folderReference.downloadURL { (url: URL?, error: Error?) in
+                        let downloadUrl = url?.absoluteString ?? ""
+                        self.savePost(imageUrl: nil, videoUrl: downloadUrl)
+                    }
+                }
+            }
+        }
+    }
+    
+    private func savePost(imageUrl: String?, videoUrl: String?) {
         
         guard let _ = postTextView.text, postTextView.hasText else {
             NotificationBanner(title: "Error", subtitle: "Debes escribir un Tweet", style: BannerStyle.warning).show()
@@ -111,7 +215,7 @@ class AddPostViewController: UIViewController {
             return
         }
         // 1. Crear request
-        let request = PostRequest(text: postTextView.text, imageUrl: imageUrl, videourl: nil, location: nil)
+        let request = PostRequest(text: postTextView.text, imageUrl: imageUrl, videourl: videoUrl, location: nil)
         
         // 2. Avisar carga
         SVProgressHUD.show()
@@ -148,6 +252,12 @@ extension AddPostViewController: UIImagePickerControllerDelegate, UINavigationCo
         if info.keys.contains(.originalImage) {
             previewImageView.isHidden = false
             previewImageView.image = info[.originalImage] as? UIImage
+        }
+        
+        // obtener url del video
+        if info.keys.contains(.mediaURL), let recordedVideoUrl = (info[.mediaURL] as? URL)?.absoluteURL {
+            videoButton.isHidden = false
+            currentVideoUrl = recordedVideoUrl
         }
     }
 }

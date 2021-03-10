@@ -17,6 +17,20 @@ class TweetTableViewCell: UITableViewCell {
     @IBOutlet weak var videoButton: UIButton!
     @IBOutlet weak var dateLabel: UILabel!
     
+    // MARK: - IBActions
+    @IBAction func openVideoAction() {
+        
+        guard let videoUrl = videoUrl else {
+            return
+        }
+        
+        needsToShowVideo?(videoUrl)
+    }
+    
+    // MARK: - Properties
+    private var videoUrl: URL?
+    var needsToShowVideo: ((_ url: URL) -> Void)?
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
@@ -29,6 +43,7 @@ class TweetTableViewCell: UITableViewCell {
     }
 
     func setupCellWith(post: Post) {
+        videoButton.isHidden = !post.hasVideo
         nameLabel.text = post.author.names
         usernameLabel.text = post.author.nickname
         messageLabel.text = post.text
@@ -40,8 +55,8 @@ class TweetTableViewCell: UITableViewCell {
             tweetImageView.kf.setImage(with: URL(string: post.imageUrl))
         } else {
             tweetImageView.isHidden = true
-            videoButton.isHidden = true
         }
         
+        videoUrl = URL(string: post.videoUrl)
     }
 }

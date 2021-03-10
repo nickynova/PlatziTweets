@@ -10,6 +10,6 @@ import Foundation
 struct PostRequest: Codable {
     let text: String
     let imageUrl: String?
-    let videourl: String?
+    let videoUrl: String?
     let location: PostRequestLocation?
 }

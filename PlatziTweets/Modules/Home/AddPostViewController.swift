@@ -38,6 +38,17 @@ class AddPostViewController: UIViewController {
         present(alert, animated: true, completion: nil)
     }
     
+    @IBAction func addPostAction() {
+        
+        // aqui no puedes agregar un tweet sin un video entonces o juntas las dos funciones o
+        // creas un if condition que corra cierta funcion de acuerdo a si el usuario publica un tweet
+        // con imagen, solo o con video.
+        
+        //savePost(imageUrl: nil, videoUrl: nil)
+        uploadVideoToFirebase()
+        //uploadPhotoToFirebase()
+    }
+
     @IBAction func openVideoCameraAction(){
         
         guard let currentVideoUrl = currentVideoUrl else {
@@ -51,10 +62,6 @@ class AddPostViewController: UIViewController {
         present(avPlayerController, animated: true) {
             avPlayerController.player?.play()
         }
-    }
-    
-    @IBAction func addPostAction() {
-        uploadVideoToFirebase()
     }
     
     @IBAction func dismissAction() {
@@ -215,7 +222,7 @@ class AddPostViewController: UIViewController {
             return
         }
         // 1. Crear request
-        let request = PostRequest(text: postTextView.text, imageUrl: imageUrl, videourl: videoUrl, location: nil)
+        let request = PostRequest(text: postTextView.text, imageUrl: imageUrl, videoUrl: videoUrl, location: nil)
         
         // 2. Avisar carga
         SVProgressHUD.show()
@@ -231,11 +238,15 @@ class AddPostViewController: UIViewController {
             case . success:
                 self.dismiss(animated: true, completion: nil)
                 
-            case .error( _):
-                NotificationBanner(subtitle: "Error inesperado", style: BannerStyle.danger).show()
+            case .error(let error):
+                NotificationBanner(title: "Error",
+                                   subtitle: error.localizedDescription,
+                                   style: .danger).show()
                 
-            case .errorResult( _):
-                NotificationBanner(subtitle: "Verifica tus credenciales y vuelve a intentar", style: BannerStyle.danger).show()
+            case .errorResult(let entity):
+                NotificationBanner(title: "Error",
+                                   subtitle: entity.error,
+                                   style: .warning).show()
             }
         }
     }

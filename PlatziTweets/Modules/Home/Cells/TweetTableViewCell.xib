@@ -52,6 +52,9 @@
                                 <state key="normal" title="Ver Video" image="video.fill" catalog="system">
                                     <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </state>
+                                <connections>
+                                    <action selector="openVideoAction" destination="KGk-i7-Jjw" eventType="touchUpInside" id="e1S-BN-KrI"/>
+                                </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="MM/DD/YY" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mm1-qj-N8a">
                                 <rect key="frame" x="0.0" y="366" width="52" height="12"/>

@@ -13,6 +13,7 @@ import FirebaseStorage
 import AVFoundation
 import AVKit
 import MobileCoreServices
+import CoreLocation
 
 class AddPostViewController: UIViewController {
     // MARK: - IBOutlets
@@ -42,11 +43,22 @@ class AddPostViewController: UIViewController {
         
         // aqui no puedes agregar un tweet sin un video entonces o juntas las dos funciones o
         // creas un if condition que corra cierta funcion de acuerdo a si el usuario publica un tweet
-        // con imagen, solo o con video.
+        // con imagen, solo o con video
         
-        //savePost(imageUrl: nil, videoUrl: nil)
-        uploadVideoToFirebase()
-        //uploadPhotoToFirebase()
+        //Solucion, obtener currentVideoUrl que es el video guardado y hacer logica para saber si esta o no
+        if currentVideoUrl != nil {
+            uploadVideoToFirebase()
+            
+            return
+        }
+        
+        if previewImageView.image != nil {
+            uploadPhotoToFirebase()
+            
+            return
+        }
+        
+        savePost(imageUrl: nil, videoUrl: nil)
     }
 
     @IBAction func openVideoCameraAction(){
@@ -71,15 +83,32 @@ class AddPostViewController: UIViewController {
     // MARK: - Properties
     private var imagePicker: UIImagePickerController?
     private var currentVideoUrl: URL?
+    private var locationManager: CLLocationManager?
+    private var userLocation: CLLocation?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         videoButton.isHidden = true
+        requestLocation()
     }
     
     
     // MARK: - Private methods
+    private func requestLocation() {
+        // vavalidamos si el usuario tiene geolocalizacion services enabled
+        guard CLLocationManager.locationServicesEnabled() else {
+            return
+        }
+        
+        locationManager = CLLocationManager()
+        locationManager?.delegate = self
+        locationManager?.desiredAccuracy = kCLLocationAccuracyBest
+        locationManager?.requestAlwaysAuthorization()
+        locationManager?.startUpdatingLocation()
+        
+    }
+    
     private func openVideoCamera() {
         imagePicker = UIImagePickerController()
         imagePicker?.sourceType = .camera
@@ -215,14 +244,24 @@ class AddPostViewController: UIViewController {
     }
     
     private func savePost(imageUrl: String?, videoUrl: String?) {
+        // creamos request de location
+        var postLocation: PostRequestLocation?
         
+        if let userLocation = userLocation {
+            postLocation = PostRequestLocation(latitude: userLocation.coordinate.latitude,
+                                               longitude: userLocation.coordinate.longitude)
+        }
+                
         guard let _ = postTextView.text, postTextView.hasText else {
             NotificationBanner(title: "Error", subtitle: "Debes escribir un Tweet", style: BannerStyle.warning).show()
             
             return
         }
         // 1. Crear request
-        let request = PostRequest(text: postTextView.text, imageUrl: imageUrl, videoUrl: videoUrl, location: nil)
+        let request = PostRequest(text: postTextView.text,
+                                  imageUrl: imageUrl,
+                                  videoUrl: videoUrl,
+                                  location: postLocation)
         
         // 2. Avisar carga
         SVProgressHUD.show()
@@ -270,5 +309,16 @@ extension AddPostViewController: UIImagePickerControllerDelegate, UINavigationCo
             videoButton.isHidden = false
             currentVideoUrl = recordedVideoUrl
         }
+    }
+}
+// MARK: -  CLLocationManagerDelegate
+extension AddPostViewController: CLLocationManagerDelegate {
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        guard let bestLocation = locations.last else {
+            return
+        }
+        
+        // Ya tenemos la ubicación del usuario! 🥶
+        userLocation = bestLocation
     }
 }

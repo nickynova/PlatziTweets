@@ -51,7 +51,13 @@
                             <constraint firstItem="FyL-Vo-cnI" firstAttribute="top" secondItem="QP0-wt-z5U" secondAttribute="top" id="jlH-3J-Ipi"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="Tweets" id="Pmx-AB-Hqf"/>
+                    <navigationItem key="navigationItem" title="Tweets" id="Pmx-AB-Hqf">
+                        <barButtonItem key="rightBarButtonItem" title="Ver Mapa" id="pih-il-6R3">
+                            <connections>
+                                <segue destination="N6y-Ic-qiU" kind="show" identifier="showMap" id="vBV-rn-xe0"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <outlet property="tableView" destination="FyL-Vo-cnI" id="DHz-uz-UnU"/>
                     </connections>
@@ -59,6 +65,37 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="CcN-Ek-5pD" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="957.97101449275374" y="209.59821428571428"/>
+        </scene>
+        <!--Mapa-->
+        <scene sceneID="hHy-2y-IG4">
+            <objects>
+                <viewController id="N6y-Ic-qiU" customClass="MapViewController" customModule="PlatziTweets" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="Zbl-nM-lQF">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="lkP-M8-XIl">
+                                <rect key="frame" x="0.0" y="140" width="414" height="756"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                            </view>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="huX-BN-qYs"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="lkP-M8-XIl" firstAttribute="top" secondItem="huX-BN-qYs" secondAttribute="top" id="DQc-dK-P5c"/>
+                            <constraint firstItem="lkP-M8-XIl" firstAttribute="leading" secondItem="huX-BN-qYs" secondAttribute="leading" id="dqp-DM-pbr"/>
+                            <constraint firstItem="lkP-M8-XIl" firstAttribute="trailing" secondItem="huX-BN-qYs" secondAttribute="trailing" id="wxe-t3-HFv"/>
+                            <constraint firstAttribute="bottom" secondItem="lkP-M8-XIl" secondAttribute="bottom" id="yMZ-mb-Yru"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" title="Mapa" id="3fE-NS-ic3"/>
+                    <connections>
+                        <outlet property="mapContainer" destination="lkP-M8-XIl" id="hYl-bJ-CT2"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="v7w-dF-3W5" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1866.6666666666667" y="-208.25892857142856"/>
         </scene>
         <!--Add Post View Controller-->
         <scene sceneID="WlP-gU-sWq">
@@ -90,7 +127,7 @@
                                         <constraints>
                                             <constraint firstAttribute="height" constant="120" id="S9S-Nr-5NO"/>
                                         </constraints>
-                                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <color key="textColor" name="TextFieldColor"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits" autocapitalizationType="sentences" autocorrectionType="yes" spellCheckingType="yes"/>
                                     </textView>
@@ -161,7 +198,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="c1y-FV-qm7" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1713.0434782608697" y="506.91964285714283"/>
+            <point key="canvasLocation" x="1868" y="507"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="5Xf-Q2-WsJ">
@@ -185,6 +222,9 @@
     <resources>
         <image name="NewTweetIcon" width="27" height="27"/>
         <image name="bottomImage" width="351.5" height="123"/>
+        <namedColor name="TextFieldColor">
+            <color red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
         <namedColor name="newTweetBoxColor">
             <color red="0.82745098039215681" green="0.82745098039215681" blue="0.82745098039215681" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
